@@ -4,8 +4,8 @@
 
 #define MAX_LINE_LENGTH 5
 #define NUMBER_OF_SHAPES 3
-#define PLAYER_SHAPE_STRING "player_shape"
-#define OUTCOME_STRING "outcome"
+#define PLAYER_SHAPE_STRING "p"
+#define OUTCOME_STRING "o"
 
 int get_score_from_player_shape(char letter);
 int get_score_from_outcome(char letter);
@@ -54,28 +54,19 @@ int main(int argc, char **argv)
 
     int total_score = 0;
     char current_line[MAX_LINE_LENGTH];
-
-    char opponent_shape;
-    char player_shape;
-    char outcome;
-
     int is_second_column_player_shape = strcmp(second_column_meaning, PLAYER_SHAPE_STRING) == 0;
 
     while (fgets(current_line, MAX_LINE_LENGTH, fp))
     {
-        opponent_shape = current_line[0];
-
         if (is_second_column_player_shape)
         {
-            player_shape = current_line[2];
-            total_score += get_score_from_player_shape(player_shape);
-            total_score += outcome_score_matrix[get_index_from_letter(opponent_shape)][get_index_from_letter(player_shape)];
+            total_score += get_score_from_player_shape(current_line[2]);
+            total_score += outcome_score_matrix[get_index_from_letter(current_line[0])][get_index_from_letter(current_line[2])];
         }
         else
         {
-            outcome = current_line[2];
-            total_score += get_score_from_outcome(outcome);
-            total_score += player_shape_score_matrix[get_index_from_letter(opponent_shape)][get_index_from_letter(outcome)];
+            total_score += get_score_from_outcome(current_line[2]);
+            total_score += player_shape_score_matrix[get_index_from_letter(current_line[0])][get_index_from_letter(current_line[2])];
         }
     }
 
